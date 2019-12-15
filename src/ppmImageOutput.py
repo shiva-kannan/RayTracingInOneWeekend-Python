@@ -1,7 +1,7 @@
 import os
 
 def hello_world_ppm():
-    path = "/Users/shiva/Desktop/python_hello_world_ppm_0.ppm"
+    path = os.path.join(os.path.dirname(__file__), "..", "images", "python_hello_world_ppm_0.ppm")
     ppm_file = open(path, 'w')
     rows = 200
     columns = 100
