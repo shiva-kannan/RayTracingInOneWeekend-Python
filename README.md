@@ -9,4 +9,4 @@ Setting up the Python 3 project and creating my first ppm output image
 
 So here is my first image!
 
-![Hello World Image Output] (/images/python_hello_world_ppm_0.png)
+![Hello World Image Output](images/python_hello_world_ppm_0.png)
