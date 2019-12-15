@@ -10,3 +10,9 @@ Setting up the Python 3 project and creating my first ppm output image
 So here is my first image!
 
 ![Hello World Image Output] (images/python_hello_world_ppm_0.ppm)
+
+##Second Step:
+The second step was to setup a Vector utility class that will be used by pretty much all the code moving forward
+Some decisions I had to make while write this class:
+* I tried to have Vector3 as a subclass of numpy.ndarray but chose to write it from scratch because it was easier
+* I used a decorator for some utility functions like cross,dot and unit_vector so that I can't pass around non-vectors
