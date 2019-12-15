@@ -1,4 +1,4 @@
-#Ray Tracing in a Weekend in Python 
+#Ray Tracing in One Weekend in Python 
 
 > Link Followed : https://raytracing.github.io/books/RayTracingInOneWeekend.html
 
