@@ -1,5 +1,4 @@
 import math
-import numpy as np
 
 
 # Decorator for checking Vector3 types
@@ -8,6 +7,7 @@ import numpy as np
 def accepts(*types):
     def check_accepts(f):
         assert len(types) == f.__code__.co_argcount
+
         def new_f(*args, **kwds):
             for (a, t) in zip(args, types):
                 assert isinstance(a, t), \
@@ -36,6 +36,26 @@ class Vector3(list):
         self.length = math.sqrt(e0*e0 + e1*e1 + e2*e2)
         self.squared_length = (e0*e0 + e1*e1 + e2*e2)
 
+    def __add__(self, other):
+        return Vector3(self[0] + other[0],
+                       self[1] + other[1],
+                       self[2] + other[2])
+
+    def __sub__(self, other):
+        return Vector3(self[0] - other[0],
+                       self[1] - other[1],
+                       self[2] - other[2])
+
+    def __mul__(self, other):
+        return Vector3(self[0] * other,
+                       self[1] * other,
+                       self[2] * other)
+
+    def __div__(self, other):
+        return Vector3(self[0] / other,
+                       self[1] / other,
+                       self[2] / other)
+
     def make_unit_vector(self):
         """
         Makes the current vector it's unit vector
@@ -60,4 +80,4 @@ def cross(v1, v2):
 
 @accepts(Vector3)
 def unit_vector(vector):
-    return Vector3(vector[0] / vector.length, vector[1]/ vector.length, vector[2]/ vector.length)
+    return Vector3(vector[0] / vector.length, vector[1] / vector.length, vector[2] / vector.length)
