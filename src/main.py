@@ -3,17 +3,30 @@ from vector import *
 from ray import Ray
 
 
+@accepts(Vector3, float, Ray)
+def hit_sphere(center, radius, ray):
+    oc = ray.origin - center
+    a = dot(ray.direction, ray.direction)
+    b = 2.0 * dot(ray.direction, oc)
+    c = dot(oc, oc) - radius*radius
+    discriminant = b*b - 4*a*c
+    return discriminant > 0
+
+
 @accepts(Ray)
 def color(r):
+    # Return Vector3(1,0,0) which would be red color if it hits the sphere
+    if hit_sphere(Vector3(0.0, 0.0, -1.0), 0.5, r):
+        return Vector3(1.0, 0.0, 0.0)
     unit_direction = unit_vector(r.direction)
     # Graphics trick of scaling it to 0.0 < y < 1.0
     t = 0.5*(unit_direction.y + 1.0)
     # Lerping between (255, 255, 255) which is white to a light shade blue (128, 255*0.7, 255)
-    return Vector3(1.0, 1.0, 1.0)*(1.0-t) + Vector3(0.0, 0.0, 1.0)*t
+    return Vector3(1.0, 1.0, 1.0)*(1.0-t) + Vector3(0.5, 0.7, 1.0)*t
 
 
 def ray_camera_background():
-    path = os.path.join(os.path.dirname(__file__), "..", "images", "ray_camera_background_0.ppm")
+    path = os.path.join(os.path.dirname(__file__), "..", "images", "ray_camera_background_sphere.ppm")
     ppm_file = open(path, 'w')
     rows = 200
     columns = 100

@@ -28,3 +28,12 @@ that way but, 2 x vector doesn't work
 But yes finally got to the lerp blue image! 
 
 ![Lerp Ray Camera Image](images/ray_camera_background.png)
+
+## Step 4:
+After a bit of Vector algebra brush-up I learnt about how to represent a sphere in a vector form and then it was pretty straightforward 
+
+* Check if the ray is hitting the sphere: This is done by solving the quadratic dot(p(t) - C, p(t) - C) = R*R
+* All we had to check was to see if the discriminant was positive to confirm that there is a solution 
+* Once this function is written we color the pixel red instead of the gradient and we get a beautiful centre sphere 
+
+![FirstSphere](images/ray_camera_background_sphere.png)
