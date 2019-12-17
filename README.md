@@ -37,3 +37,10 @@ After a bit of Vector algebra brush-up I learnt about how to represent a sphere 
 * Once this function is written we color the pixel red instead of the gradient and we get a beautiful centre sphere 
 
 ![FirstSphere](images/ray_camera_background_sphere.png)
+
+## Step 5
+The first part of this step is to generate a way to calculate and visualize the normals 
+* We start by calculating the actual determinant -> use that to calculate the normal vector -> make it it's unit vector 
+-> map the component values to R/G/B to visualize the normals on the sphere
+
+![Sphere_Normal](images/ray_camera_background_sphere_normal.png)

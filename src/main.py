@@ -10,14 +10,20 @@ def hit_sphere(center, radius, ray):
     b = 2.0 * dot(ray.direction, oc)
     c = dot(oc, oc) - radius*radius
     discriminant = b*b - 4*a*c
-    return discriminant > 0
+    if discriminant < 0:
+        return -1.0
+    else:
+        return float((-b - math.sqrt(discriminant))/(2*a))
 
 
 @accepts(Ray)
 def color(r):
-    # Return Vector3(1,0,0) which would be red color if it hits the sphere
-    if hit_sphere(Vector3(0.0, 0.0, -1.0), 0.5, r):
-        return Vector3(1.0, 0.0, 0.0)
+    # Calculate the normal using the hit point
+    t = hit_sphere(Vector3(0.0, 0.0, -1.0), 0.5, r)
+    if t > 0.0:
+        N = unit_vector(r.point_at_parameter(t) - Vector3(0.0, 0.0, -1.0))
+        # Map the unit vector magnitudes to R/G/B : Most common way of showing normal
+        return Vector3(N.x + 1.0, N.y + 1.0, N.z + 1.0) * 0.5
     unit_direction = unit_vector(r.direction)
     # Graphics trick of scaling it to 0.0 < y < 1.0
     t = 0.5*(unit_direction.y + 1.0)
@@ -26,7 +32,7 @@ def color(r):
 
 
 def ray_camera_background():
-    path = os.path.join(os.path.dirname(__file__), "..", "images", "ray_camera_background_sphere.ppm")
+    path = os.path.join(os.path.dirname(__file__), "..", "images", "ray_camera_background_sphere_normal.ppm")
     ppm_file = open(path, 'w')
     rows = 200
     columns = 100
