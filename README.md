@@ -32,7 +32,7 @@ But yes finally got to the lerp blue image!
 ## Step 4:
 After a bit of Vector algebra brush-up I learnt about how to represent a sphere in a vector form and then it was pretty straightforward 
 
-* Check if the ray is hitting the sphere: This is done by solving the quadratic dot(p(t) - C, p(t) - C) = R*R
+* Check if the ray is hitting the sphere: This is done by solving the quadratic `dot(p(t) - C, p(t) - C) = R*R`
 * All we had to check was to see if the discriminant was positive to confirm that there is a solution 
 * Once this function is written we color the pixel red instead of the gradient and we get a beautiful centre sphere 
 
@@ -42,5 +42,14 @@ After a bit of Vector algebra brush-up I learnt about how to represent a sphere 
 The first part of this step is to generate a way to calculate and visualize the normals 
 * We start by calculating the actual determinant -> use that to calculate the normal vector -> make it it's unit vector 
 -> map the component values to R/G/B to visualize the normals on the sphere
+* Also realised in Python3 the magic method for division should be `__truediv__` instead of just `__div__` 
 
 ![Sphere_Normal](images/ray_camera_background_sphere_normal.png)
+
+* The next part of this step was to get an abstract class working to so that we can define what a `hittable` object needs
+to implement. Mainly the "hit" function
+* We then have a Hittable list class which allows us to define a list of "hittable" objects (in our example case -> two spheres)
+* This list is then used to render out the normals for all the spheres in the scene. I went ahead and created two scenes -> one as 
+explained in the tutorial and another with a sphere at +102.5 and that's how it looks. Fun! 
+
+![Two Spheres](images/two_spheres_normal.png)     ![Three Spheres](images/three_spheres_normal.png)

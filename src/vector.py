@@ -51,7 +51,7 @@ class Vector3(list):
                        self[1] * other,
                        self[2] * other)
 
-    def __div__(self, other):
+    def __truediv__(self, other):
         return Vector3(self[0] / other,
                        self[1] / other,
                        self[2] / other)
