@@ -53,3 +53,16 @@ to implement. Mainly the "hit" function
 explained in the tutorial and another with a sphere at +102.5 and that's how it looks. Fun! 
 
 ![Two Spheres](images/two_spheres_normal.png)     ![Three Spheres](images/three_spheres_normal.png)
+
+## Step 6 
+Anti Aliasing! 
+I took a long break before this section and so I had to read back everything I had done before to carry on the momentum
+
+* It was straightforward to make a Camera class and abstract what was going on in the main.py into it's own
+* Anti Aliasing was about averaging out the color value by sending in multiple ray for the same pixel : Thankfully the random function in Python
+was doing it's job of giving me [0, 1) real numbers so that was great! 
+* I got stuck at this step for a while because the += operator wasn't working because of the vec3 `_add_` override. 
+I had to expand it and it worked fine. I also learnt that I could override the `__iadd__` method to make it work but I kept it this way for now
+* Also : Python is acting up already with just 3 spheres and samples = 100. It takes a solid 30s for this to render, but hey it did render! 
+
+![Anti Aliasing](images/anti_aliasing.png)

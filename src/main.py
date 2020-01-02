@@ -1,9 +1,14 @@
-import os
+# Project imports
 from vector import *
 from ray import Ray
+from camera import Camera
 from sphere import Sphere
 from hittable_list import Hittable_List
 from hittable import HitRecord
+
+# Standard Libs
+import os
+import random
 import sys
 
 # @accepts(Vector3, float, Ray)
@@ -23,6 +28,7 @@ def color(r, world):
     hit_record = HitRecord()
     # MAXFLOAT in C++
     if world.hit(r, 0.0, sys.float_info.max, hit_record):
+        # -1 < t < 1 to 0 < t < 1
         return Vector3(hit_record.normal.x + 1.0, hit_record.normal.y + 1.0, hit_record.normal.z + 1.0)*0.5
     else:
         unit_direction = unit_vector(r.direction)
@@ -40,28 +46,28 @@ def color(r, world):
 
 
 def ray_camera_background():
-    path = os.path.join(os.path.dirname(__file__), "..", "images", "three_spheres_normal.ppm")
+    path = os.path.join(os.path.dirname(__file__), "..", "images", "anti_aliasing.ppm")
     ppm_file = open(path, 'w')
     rows = 200
     columns = 100
+    samples = 100  # Too much for Python
     title = "P3\n{r} {c}\n255\n".format(r=rows, c=columns)
-    lower_left_corner = Vector3(-2.0, -1.0, -1.0)
-    horizontal = Vector3(4.0, 0.0, 0.0)
-    vertical = Vector3(0.0, 2.0, 0.0)
-    origin = Vector3(0.0, 0.0, 0.0)
     ppm_file.write(title)
     # Creating two sphere and making a world out of those hittable objects
     object_list = [Sphere(Vector3(0.0, 0.0, -1.0), 0.5), Sphere(Vector3(0.0, -100.5, -1.0), 100.0),
                    Sphere(Vector3(0.0, 102.5, -1.0), 100.0)]
     world = Hittable_List(object_list)
+    main_camera = Camera()
     for j in range(columns-1, -1, -1):
         for i in range(0, rows, 1):
-            u = float(i)/float(rows)
-            v = float(j)/float(columns)
-            rayr = Ray(origin, lower_left_corner + horizontal*u + vertical*v)
-            # Using the hittable classes and object. Why 2.0 ?
-            p = rayr.point_at_parameter(2.0)
-            col = color(rayr, world)
+            col = Vector3(0.0, 0.0, 0.0)
+            for s in range(0, samples, 1):
+                u = float(i + random.random())/float(rows)
+                v = float(j + random.random())/float(columns)
+                rayr = main_camera.get_ray(u, v)
+                col = color(rayr, world) + col
+            # Averaging out
+            col = col/samples
             ir = int(255.99*col.r)
             ig = int(255.99*col.g)
             ib = int(255.99*col.b)
