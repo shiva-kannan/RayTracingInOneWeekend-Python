@@ -10,26 +10,24 @@ from hittable import HitRecord
 import os
 import random
 import sys
+import time
 
-# @accepts(Vector3, float, Ray)
-# def hit_sphere(center, radius, ray):
-#     oc = ray.origin - center
-#     a = dot(ray.direction, ray.direction)
-#     b = 2.0 * dot(ray.direction, oc)
-#     c = dot(oc, oc) - radius*radius
-#     discriminant = b*b - 4*a*c
-#     if discriminant < 0:
-#         return -1.0
-#     else:
-#         return float((-b - math.sqrt(discriminant))/(2*a))
+
+def random_in_unit_sphere():
+    # The rejection method to get a random point inside a unit radius sphere centred at origin
+    p = Vector3(random.random(), random.random(), random.random())*2 - Vector3(1.0, 1.0, 1.0)
+    while p.squared_length >= 1.0:
+        p = Vector3(random.random(), random.random(), random.random())*2 - Vector3(1.0, 1.0, 1.0)
+    return p
 
 
 def color(r, world):
     hit_record = HitRecord()
     # MAXFLOAT in C++
-    if world.hit(r, 0.0, sys.float_info.max, hit_record):
+    if world.hit(r, 0.001, sys.float_info.max, hit_record):
         # -1 < t < 1 to 0 < t < 1
-        return Vector3(hit_record.normal.x + 1.0, hit_record.normal.y + 1.0, hit_record.normal.z + 1.0)*0.5
+        target = hit_record.p + hit_record.normal + random_in_unit_sphere()
+        return color(Ray(hit_record.p, target - hit_record.p), world) * 0.5
     else:
         unit_direction = unit_vector(r.direction)
         # Graphics trick of scaling it to 0.0 < y < 1.0
@@ -46,7 +44,7 @@ def color(r, world):
 
 
 def ray_camera_background():
-    path = os.path.join(os.path.dirname(__file__), "..", "images", "anti_aliasing.ppm")
+    path = os.path.join(os.path.dirname(__file__), "..", "images", "diffuse_with_gamma.ppm")
     ppm_file = open(path, 'w')
     rows = 200
     columns = 100
@@ -54,8 +52,7 @@ def ray_camera_background():
     title = "P3\n{r} {c}\n255\n".format(r=rows, c=columns)
     ppm_file.write(title)
     # Creating two sphere and making a world out of those hittable objects
-    object_list = [Sphere(Vector3(0.0, 0.0, -1.0), 0.5), Sphere(Vector3(0.0, -100.5, -1.0), 100.0),
-                   Sphere(Vector3(0.0, 102.5, -1.0), 100.0)]
+    object_list = [Sphere(Vector3(0.0, 0.0, -1.0), 0.5), Sphere(Vector3(0.0, -100.5, -1.0), 100.0)]
     world = Hittable_List(object_list)
     main_camera = Camera()
     for j in range(columns-1, -1, -1):
@@ -68,6 +65,7 @@ def ray_camera_background():
                 col = color(rayr, world) + col
             # Averaging out
             col = col/samples
+            col = Vector3(math.sqrt(col.r), math.sqrt(col.g), math.sqrt(col.b))
             ir = int(255.99*col.r)
             ig = int(255.99*col.g)
             ib = int(255.99*col.b)
@@ -77,4 +75,6 @@ def ray_camera_background():
 
 
 if __name__ == '__main__':
+    start_time = time.time()
     ray_camera_background()
+    print(time.time() - start_time)

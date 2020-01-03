@@ -66,3 +66,14 @@ I had to expand it and it worked fine. I also learnt that I could override the `
 * Also : Python is acting up already with just 3 spheres and samples = 100. It takes a solid 30s for this to render, but hey it did render! 
 
 ![Anti Aliasing](images/anti_aliasing.png)
+
+## Step 7 
+Diffuse material! 
+This step was to mimic a diffuse material which basically has a color of its own and take on the color of the environment
+Light can bounce off randomly at any direction after hitting the object
+
+* Learnt the interesting and hacky Rejection method for calculate a random point inside a unit sphere
+* The point of contact between two surfaces as we can see from the image is dark / shadow since it's mostly absorbed
+* With a 100 samples : The image with gamma took 133.6 seconds to render (after removing the extra sphere in the scene)
+
+![Diffuse without Gamma](images/diffuse_without_gamma.png)    ![Diffuse With Gamma](images/diffuse_with_gamma.png)
