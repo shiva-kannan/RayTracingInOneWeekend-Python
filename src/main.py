@@ -43,28 +43,51 @@ def color(r, world, depth):
         return Vector3(1.0, 1.0, 1.0) * (1.0 - t) + Vector3(0.5, 0.7, 1.0) * t
 
 
+def create_scene():
+
+    n = 500
+    object_list = [Sphere(Vector3(0, -1000, 0), 1000, Lambertian(Vector3(0.5, 0.5, 0.5)))]
+    i = 1
+    for a in range(-1, 1, 1):
+        for b in range(-1, 1, 1):
+            choose_mat = random.random()
+            center = Vector3(a+0.9*random.random(), 0.2, b+0.9*random.random())
+            if (center - Vector3(4.0, 0.2, 0)).length > 0.9:
+                if choose_mat < 0.8:  # Diffuse
+                    object_list.append(Sphere(center, 0.2,
+                                            Lambertian(Vector3(random.random(),
+                                                               random.random(),
+                                                               random.random()))))
+                else:  # Metal
+                    object_list.append(Sphere(center, 0.2,
+                                            Metal(Vector3(0.5*(1 + random.random()),
+                                                          0.5*(1 + random.random()),
+                                                          0.5*(1 + random.random())),
+                                                  0.5 * random.random())))
+    object_list.append(Sphere(Vector3(0.0, 1.0, 0.0), 1.0, Metal(Vector3(0.7, 0.6, 0.5), 0.95)))
+    object_list.append(Sphere(Vector3(-4.0, 1.0, 0.0), 1.0, Lambertian(Vector3(0.4, 0.2, 0.1))))
+    object_list.append(Sphere(Vector3(4.0, 1.0, 0.0), 1.0, Metal(Vector3(0.7, 0.6, 0.5), 0.0)))
+
+    return object_list
+
+
 def ray_camera_background():
-    path = os.path.join(os.path.dirname(__file__), "..", "images", "defocus_blur.ppm")
+    path = os.path.join(os.path.dirname(__file__), "..", "images", "last_scene_3.ppm")
     ppm_file = open(path, 'w')
-    rows = 200
-    columns = 100
-    samples = 100  # Too much for Python
+    rows = 1200
+    columns = 800
+    samples = 10  # Too much for Python
     title = "P3\n{r} {c}\n255\n".format(r=rows, c=columns)
     ppm_file.write(title)
     # Creating two sphere and making a world out of those hittable objects
     r = math.cos(math.pi/4.0)
-    # object_list = [Sphere(Vector3(-r, 0.0, -1.0), r, Lambertian(Vector3(0, 0, 1))),
-    #                Sphere(Vector3(r, 0.0, -1.0), r, Lambertian(Vector3(1, 0, 0)))]
-    object_list = [Sphere(Vector3(0.0, 0.0, -1.0), 0.5, Lambertian(Vector3(0.8, 0.3, 0.3))),
-                   Sphere(Vector3(0.0, -100.5, -1.0), 100.0, Lambertian(Vector3(0.8, 0.8, 0))),
-                   Sphere(Vector3(1.0, 0.0, -1.0), 0.5, Metal(Vector3(0.8, 0.6, 0.2), fuzz=1.0)),
-                   Sphere(Vector3(-1.0, 0.0, -1.0), 0.5, Metal(Vector3(0.8, 0.8, 0.8), fuzz=0.3))]
+    object_list = create_scene()
     world = Hittable_List(object_list)
     # Defining camera parameters
-    lookfrom = Vector3(3.0, 3.0, 2.0)
-    lookat = Vector3(0.0, 0.0, -1.0)
-    focus_distance = (lookat - lookfrom).length
-    aperture = 2.0
+    lookfrom = Vector3(13.0, 2.0, 3.0)
+    lookat = Vector3(0.0, 0.0, 0.0)
+    focus_distance = 10.0
+    aperture = 0.1
     main_camera = Camera(lookfrom, lookat, Vector3(0.0, 1.0, 0.0),
                          20, float(rows)/float(columns), aperture, focus_distance)
     for j in range(columns-1, -1, -1):
@@ -75,6 +98,7 @@ def ray_camera_background():
                 v = float(j + random.random())/float(columns)
                 rayr = main_camera.get_ray(u, v)
                 col = color(rayr, world, 0) + col
+
             # Averaging out
             col = col/samples
             col = Vector3(math.sqrt(col.r), math.sqrt(col.g), math.sqrt(col.b))

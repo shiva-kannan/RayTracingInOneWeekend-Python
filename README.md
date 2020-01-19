@@ -114,4 +114,15 @@ Simulating a thin lens for getting a defocus blur
 
 ![Defocus Blur](images/defocus_blur.png)
 
+## Final Renders! 
+Even though it took a ridiculous 99 minutes for the last 1200x800 render it was worth it I think! 
 
+Here are three renders with one in 1200x800 res
+
+
+![First](images/last_scene.png)    ![Second](images/last_scene_2.png)
+
+![ThirdHiRes](images/last_scene_3.png)
+
+
+PS : Haven't implemented Dielectric materials yet. For another day!
