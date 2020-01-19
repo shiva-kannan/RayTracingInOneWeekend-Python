@@ -41,17 +41,10 @@ def color(r, world, depth):
         t = 0.5 * (unit_direction.y + 1.0)
         # Lerping between (255, 255, 255) which is white to a light shade blue (128, 255*0.7, 255)
         return Vector3(1.0, 1.0, 1.0) * (1.0 - t) + Vector3(0.5, 0.7, 1.0) * t
-    # # Calculate the normal using the hit point
-    # t = hit_sphere(Vector3(0.0, 0.0, -1.0), 0.5, r)
-    # if t > 0.0:
-    #     N = unit_vector(r.point_at_parameter(t) - Vector3(0.0, 0.0, -1.0))
-    #     # Map the unit vector magnitudes to R/G/B : Most common way of showing normal
-    #     return Vector3(N.x + 1.0, N.y + 1.0, N.z + 1.0) * 0.5
-    # unit_direction = unit_vector(r.direction)
 
 
 def ray_camera_background():
-    path = os.path.join(os.path.dirname(__file__), "..", "images", "positionable_camera_change_view_2.ppm")
+    path = os.path.join(os.path.dirname(__file__), "..", "images", "defocus_blur.ppm")
     ppm_file = open(path, 'w')
     rows = 200
     columns = 100
@@ -67,8 +60,13 @@ def ray_camera_background():
                    Sphere(Vector3(1.0, 0.0, -1.0), 0.5, Metal(Vector3(0.8, 0.6, 0.2), fuzz=1.0)),
                    Sphere(Vector3(-1.0, 0.0, -1.0), 0.5, Metal(Vector3(0.8, 0.8, 0.8), fuzz=0.3))]
     world = Hittable_List(object_list)
-    main_camera = Camera(Vector3(-2.0, 2.0, 1.0), Vector3(0.0, 0.0, -1.0), Vector3(0.0, 1.0, 0.0),
-                         20, float(rows)/float(columns))
+    # Defining camera parameters
+    lookfrom = Vector3(3.0, 3.0, 2.0)
+    lookat = Vector3(0.0, 0.0, -1.0)
+    focus_distance = (lookat - lookfrom).length
+    aperture = 2.0
+    main_camera = Camera(lookfrom, lookat, Vector3(0.0, 1.0, 0.0),
+                         20, float(rows)/float(columns), aperture, focus_distance)
     for j in range(columns-1, -1, -1):
         for i in range(0, rows, 1):
             col = Vector3(0.0, 0.0, 0.0)

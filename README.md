@@ -103,3 +103,15 @@ Learnt how we can define a movable camera in the scene and it's important parame
 ![Initial Camera Test](images/positionable_camera_first.png)    ![Camera position 1](images/positionable_camera_change_view_1.png)
 
 ![Much Lesser FOV](images/positionable_camera_change_view_2.png)
+
+## Step 10
+
+Defocus blur (Depth of field)
+
+Simulating a thin lens for getting a defocus blur
+
+* Used a similar random_unit_in_disc trick to augment the lens get_ray function
+
+![Defocus Blur](images/defocus_blur.png)
+
+
