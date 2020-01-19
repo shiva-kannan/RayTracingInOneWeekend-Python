@@ -10,9 +10,10 @@ from ray import Ray
 
 class Sphere(Hittable):
 
-    def __init__(self, center, radius):
+    def __init__(self, center, radius, material):
         self.center = center
         self.radius = radius
+        self.material = material
 
     def hit(self, ray, t_min, t_max, hit_record):
         oc = ray.origin - self.center
@@ -26,12 +27,14 @@ class Sphere(Hittable):
                 hit_record.t = temp
                 hit_record.p = ray.point_at_parameter(hit_record.t)
                 hit_record.normal = (hit_record.p - self.center)/self.radius
+                hit_record.material = self.material
                 return True
             temp = (-b + math.sqrt(discriminant))/a
             if t_min < temp < t_max:
                 hit_record.t = temp
                 hit_record.p = ray.point_at_parameter(hit_record.t)
                 hit_record.normal = (hit_record.p - self.center)/self.radius
+                hit_record.material = self.material
                 return True
         else:
             return False

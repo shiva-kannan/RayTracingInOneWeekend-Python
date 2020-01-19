@@ -59,7 +59,7 @@ Anti Aliasing!
 I took a long break before this section and so I had to read back everything I had done before to carry on the momentum
 
 * It was straightforward to make a Camera class and abstract what was going on in the main.py into it's own
-* Anti Aliasing was about averaging out the color value by sending in multiple ray for the same pixel : Thankfully the random function in Python
+* Anti Aliasing was about averaging out the color value by sending in multiple rays for the same pixel : Thankfully the random function in Python
 was doing it's job of giving me [0, 1) real numbers so that was great! 
 * I got stuck at this step for a while because the += operator wasn't working because of the vec3 `_add_` override. 
 I had to expand it and it worked fine. I also learnt that I could override the `__iadd__` method to make it work but I kept it this way for now
@@ -72,8 +72,22 @@ Diffuse material!
 This step was to mimic a diffuse material which basically has a color of its own and take on the color of the environment
 Light can bounce off randomly at any direction after hitting the object
 
-* Learnt the interesting and hacky Rejection method for calculate a random point inside a unit sphere
+* Learnt the interesting and hacky Rejection method for calculating a random point inside a unit sphere
 * The point of contact between two surfaces as we can see from the image is dark / shadow since it's mostly absorbed
 * With a 100 samples : The image with gamma took 133.6 seconds to render (after removing the extra sphere in the scene)
 
 ![Diffuse without Gamma](images/diffuse_without_gamma.png)    ![Diffuse With Gamma](images/diffuse_with_gamma.png)
+
+## Step 8 
+Materials 
+This step I learnt how to decouple material code into an a separate and class and define the scene with the material that
+the sphere is coupled with
+
+* Some vector math came to use here to define how a metal material would work
+* Learnt the interesting approach to defining a fuzzy metal look that could use the same random unit sphere concept to get a more rough 
+look of the same metal material
+* The final frame took 269s to render after I put 4 spheres into the scene and applied different materials
+* Added the depth parameter to restrict how deep we would want to the rays to keep bouncing
+
+
+![3 Spheres with Material Class](images/material_class_3_spheres.png)    ![4 Spheres with metal](images/material_class_4_spheres.png)

@@ -5,6 +5,7 @@ from camera import Camera
 from sphere import Sphere
 from hittable_list import Hittable_List
 from hittable import HitRecord
+from material import *
 
 # Standard Libs
 import os
@@ -21,13 +22,19 @@ def random_in_unit_sphere():
     return p
 
 
-def color(r, world):
+def color(r, world, depth):
+    # Introducing depth to control how deep we want the rays to keep bouncing off
     hit_record = HitRecord()
     # MAXFLOAT in C++
     if world.hit(r, 0.001, sys.float_info.max, hit_record):
         # -1 < t < 1 to 0 < t < 1
-        target = hit_record.p + hit_record.normal + random_in_unit_sphere()
-        return color(Ray(hit_record.p, target - hit_record.p), world) * 0.5
+        # Replacing all the code with the material class created
+        scattered = Ray(origin=Vector3(0.0, 0.0, 0.0), direction=Vector3(0.0, 0.0, 0.0))
+        hit = hit_record.material.scatter(r, hit_record, scattered)
+        if depth < 50 and hit[0]:
+            return color(scattered, world, depth+1).mul(hit[1])
+        else:
+            return Vector3(0.0, 0.0, 0.0)
     else:
         unit_direction = unit_vector(r.direction)
         # Graphics trick of scaling it to 0.0 < y < 1.0
@@ -44,7 +51,7 @@ def color(r, world):
 
 
 def ray_camera_background():
-    path = os.path.join(os.path.dirname(__file__), "..", "images", "diffuse_with_gamma.ppm")
+    path = os.path.join(os.path.dirname(__file__), "..", "images", "material_class_4_spheres.ppm")
     ppm_file = open(path, 'w')
     rows = 200
     columns = 100
@@ -52,7 +59,10 @@ def ray_camera_background():
     title = "P3\n{r} {c}\n255\n".format(r=rows, c=columns)
     ppm_file.write(title)
     # Creating two sphere and making a world out of those hittable objects
-    object_list = [Sphere(Vector3(0.0, 0.0, -1.0), 0.5), Sphere(Vector3(0.0, -100.5, -1.0), 100.0)]
+    object_list = [Sphere(Vector3(0.0, 0.0, -1.0), 0.5, Lambertian(Vector3(0.8, 0.3, 0.3))),
+                   Sphere(Vector3(0.0, -100.5, -1.0), 100.0, Lambertian(Vector3(0.8, 0.8, 0))),
+                   Sphere(Vector3(1.0, 0.0, -1.0), 0.5, Metal(Vector3(0.8, 0.6, 0.2), fuzz=1.0)),
+                   Sphere(Vector3(-1.0, 0.0, -1.0), 0.5, Metal(Vector3(0.8, 0.8, 0.8), fuzz=0.3))]
     world = Hittable_List(object_list)
     main_camera = Camera()
     for j in range(columns-1, -1, -1):
@@ -62,7 +72,7 @@ def ray_camera_background():
                 u = float(i + random.random())/float(rows)
                 v = float(j + random.random())/float(columns)
                 rayr = main_camera.get_ray(u, v)
-                col = color(rayr, world) + col
+                col = color(rayr, world, 0) + col
             # Averaging out
             col = col/samples
             col = Vector3(math.sqrt(col.r), math.sqrt(col.g), math.sqrt(col.b))

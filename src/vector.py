@@ -51,6 +51,11 @@ class Vector3(list):
                        self[1] * other,
                        self[2] * other)
 
+    def mul(self, other):
+        return Vector3(self[0] * other[0],
+                       self[1] * other[1],
+                       self[2] * other[2])
+
     def __truediv__(self, other):
         return Vector3(self[0] / other,
                        self[1] / other,

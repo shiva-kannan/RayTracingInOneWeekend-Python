@@ -22,4 +22,5 @@ class Hittable_List(Hittable):
                 hit_record.t = tmp_hit_rec.t
                 hit_record.p = tmp_hit_rec.p
                 hit_record.normal = tmp_hit_rec.normal
+                hit_record.material = tmp_hit_rec.material
         return hit_anything

@@ -18,3 +18,4 @@ class HitRecord:
         self.t = t
         self.p = p
         self.normal = normal
+        self.material = None
