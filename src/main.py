@@ -51,7 +51,7 @@ def color(r, world, depth):
 
 
 def ray_camera_background():
-    path = os.path.join(os.path.dirname(__file__), "..", "images", "material_class_4_spheres.ppm")
+    path = os.path.join(os.path.dirname(__file__), "..", "images", "positionable_camera_change_view_2.ppm")
     ppm_file = open(path, 'w')
     rows = 200
     columns = 100
@@ -59,12 +59,16 @@ def ray_camera_background():
     title = "P3\n{r} {c}\n255\n".format(r=rows, c=columns)
     ppm_file.write(title)
     # Creating two sphere and making a world out of those hittable objects
+    r = math.cos(math.pi/4.0)
+    # object_list = [Sphere(Vector3(-r, 0.0, -1.0), r, Lambertian(Vector3(0, 0, 1))),
+    #                Sphere(Vector3(r, 0.0, -1.0), r, Lambertian(Vector3(1, 0, 0)))]
     object_list = [Sphere(Vector3(0.0, 0.0, -1.0), 0.5, Lambertian(Vector3(0.8, 0.3, 0.3))),
                    Sphere(Vector3(0.0, -100.5, -1.0), 100.0, Lambertian(Vector3(0.8, 0.8, 0))),
                    Sphere(Vector3(1.0, 0.0, -1.0), 0.5, Metal(Vector3(0.8, 0.6, 0.2), fuzz=1.0)),
                    Sphere(Vector3(-1.0, 0.0, -1.0), 0.5, Metal(Vector3(0.8, 0.8, 0.8), fuzz=0.3))]
     world = Hittable_List(object_list)
-    main_camera = Camera()
+    main_camera = Camera(Vector3(-2.0, 2.0, 1.0), Vector3(0.0, 0.0, -1.0), Vector3(0.0, 1.0, 0.0),
+                         20, float(rows)/float(columns))
     for j in range(columns-1, -1, -1):
         for i in range(0, rows, 1):
             col = Vector3(0.0, 0.0, 0.0)

@@ -8,11 +8,17 @@ from vector import Vector3
 
 class Camera:
 
-    def __init__(self):
-        self.lower_left_corner = Vector3(-2.0, -1.0, -1.0)
-        self.horizontal = Vector3(4.0, 0.0, 0.0)
-        self.vertical = Vector3(0.0, 2.0, 0.0)
-        self.origin = Vector3(0.0, 0.0, 0.0)
+    def __init__(self, lookfrom, lookat, vup, vfov, aspect):
+        self.theta = vfov * math.pi/180
+        self.half_height = math.tan(self.theta/2)
+        self.half_width = aspect * self.half_height
+        self.origin = lookfrom
+        w = unit_vector(lookfrom - lookat)
+        u = unit_vector(cross(vup, w))
+        v = cross(w, u)
+        self.lower_left_corner = self.origin - u * self.half_width - v * self.half_height - w
+        self.horizontal = u * self.half_width * 2
+        self.vertical = v * self.half_height * 2
 
     def get_ray(self, u, v):
         """

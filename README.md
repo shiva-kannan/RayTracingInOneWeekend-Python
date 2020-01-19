@@ -91,3 +91,15 @@ look of the same metal material
 
 
 ![3 Spheres with Material Class](images/material_class_3_spheres.png)    ![4 Spheres with metal](images/material_class_4_spheres.png)
+
+## Step 9
+Positionable camera
+
+Learnt how we can define a movable camera in the scene and it's important parameters
+
+* Writing the camera that was used till now (origin and looking at -z) in the positionable camera form gave me a good understanding of what the variables were
+* Playing around with FOV I guessed it correct for what Peter Shirley had put as a closeup image! 
+
+![Initial Camera Test](images/positionable_camera_first.png)    ![Camera position 1](images/positionable_camera_change_view_1.png)
+
+![Much Lesser FOV](images/positionable_camera_change_view_2.png)
