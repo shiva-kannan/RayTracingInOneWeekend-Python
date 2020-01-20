@@ -46,10 +46,10 @@ def color(r, world, depth):
 def create_scene():
 
     n = 500
-    object_list = [Sphere(Vector3(0, -1000, 0), 1000, Lambertian(Vector3(0.5, 0.5, 0.5)))]
+    object_list = [Sphere(Vector3(0, -1000, 0), 1000, Lambertian(Vector3(0.19, 0.78, 0.78)))]
     i = 1
-    for a in range(-1, 1, 1):
-        for b in range(-1, 1, 1):
+    for a in range(-11, 11, 1):
+        for b in range(-11, 11, 1):
             choose_mat = random.random()
             center = Vector3(a+0.9*random.random(), 0.2, b+0.9*random.random())
             if (center - Vector3(4.0, 0.2, 0)).length > 0.9:
@@ -72,7 +72,7 @@ def create_scene():
 
 
 def ray_camera_background():
-    path = os.path.join(os.path.dirname(__file__), "..", "images", "last_scene_3.ppm")
+    path = os.path.join(os.path.dirname(__file__), "..", "images", "last_scene_4.ppm")
     ppm_file = open(path, 'w')
     rows = 1200
     columns = 800
@@ -107,6 +107,7 @@ def ray_camera_background():
             ib = int(255.99*col.b)
             value = "{ir} {ig} {ib}\n".format(ir=ir, ig=ig, ib=ib)
             ppm_file.write(value)
+        print("Column {0} Row {1} done!".format(j, i))
     ppm_file.close()
 
 
