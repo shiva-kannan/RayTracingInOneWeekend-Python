@@ -2,6 +2,10 @@
 
 > Link Followed : https://raytracing.github.io/books/RayTracingInOneWeekend.html
 
+
+#####NOTE : All the Steps are pushed under separate branches for someone to look at iterations. Master has the latest merged code
+
+
 ## Step 1:
 Setting up the Python 3 project and creating my first ppm output image
 * I chose to use pipenv since that's becoming a standard and it's a much easier way to maintain dependencies 
@@ -20,7 +24,7 @@ Some decisions I had to make while write this class:
 ## Step 3:
 This taught be what a Ray class would look like since Rays over here is an essential entity to navigate
 from camera to objects
-* This took me some time to get my code working because I realised I head to override the _add_ _sub_ properties of the
+* This took me some time to get my code working because I realised I had to override the _add_ _sub_ properties of the
 list Vector3 class to perform any sort of operations 
 * I also learnt that after overriding the methods the operator order mattered. vector x 2 worked since I had defined the method 
 that way but, 2 x vector doesn't work
@@ -129,4 +133,4 @@ And the final render which took a ridiculous 21 hrs
 ![Final Render](images/last_scene_4.png)
 
 
-PS : Haven't implemented Dielectric materials yet. For another day!
+####NOTE : Haven't implemented Dielectric materials yet. For another day!
