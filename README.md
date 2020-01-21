@@ -3,7 +3,7 @@
 > Link Followed : https://raytracing.github.io/books/RayTracingInOneWeekend.html
 
 
-```NOTE : All the Steps are pushed under separate branches for someone to look at iterations. Master has the latest merged code```
+```NOTE : Each step is pushed under a separate branch. Master has the latest merged code```
 
 
 ## Step 1:
