@@ -3,7 +3,7 @@
 > Link Followed : https://raytracing.github.io/books/RayTracingInOneWeekend.html
 
 
-#####NOTE : All the Steps are pushed under separate branches for someone to look at iterations. Master has the latest merged code
+```NOTE : All the Steps are pushed under separate branches for someone to look at iterations. Master has the latest merged code```
 
 
 ## Step 1:
@@ -133,4 +133,4 @@ And the final render which took a ridiculous 21 hrs
 ![Final Render](images/last_scene_4.png)
 
 
-####NOTE : Haven't implemented Dielectric materials yet. For another day!
+``` NOTE : Haven't implemented Dielectric materials yet. For another day! ```
